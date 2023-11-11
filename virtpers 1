@@ -1,0 +1,90 @@
+#include <iostream>
+#include <ctime>
+#include <wchar.h>
+#include <Windows.h>
+#include <algorithm>
+#include <vector>
+#include <string>
+#include <string.h>
+#include <stdlib.h>
+#include <cstring>
+#include <conio.h>
+#include <iomanip>
+#include <process.h>
+#include <ctime>
+#include <cstdlib>
+
+
+
+using namespace std;
+class person {
+protected:
+    char name[40];
+public:
+    void getName() {
+        cout << "  Enter name: ";
+        cin >> name;
+    }
+    void putName() {
+        cout << "  Name: " << name << endl;
+    }
+    virtual void getData() = 0;
+    virtual bool isOutstanding() = 0;
+};
+class student : public person {
+private:
+    float gpa;
+public:
+    void getData() {
+        person::getName();
+        cout << "  average student score:  ";
+        cin >> gpa;
+    }
+    bool isOutstanding() {
+        return (gpa > 3.5) ? true : false;
+    }
+};
+class professor : public person {
+private:
+    float gpa;
+    int numPubs;
+public:
+    void getData() {
+        person::getName();
+        cout << "  number of publications:  ";
+        cin >> gpa;
+    }
+    bool isOutstanding() {
+        return (gpa > 100) ? true : false;
+    }
+};
+
+
+int main()
+{
+    person* persPtr[100];
+    int n = 0;
+    char choise;
+
+    do {
+        cout << "student (s) or teacher (p): ";
+        cin >> choise;
+        if (choise == 's')
+            persPtr[n] = new student;
+        else
+            persPtr[n] = new professor;
+        persPtr[n++]->getData();
+        cout << " enter another person (y/n)? ";
+
+        cin >> choise;
+    } while (choise == 'y');
+
+    for (int j = 0; j < n; j++) {
+        persPtr[j]->putName();
+        if (persPtr[j]->isOutstanding()) {
+            cout << "  This is an outstanding person!\n";
+        }
+    }
+
+    return 0;
+}
